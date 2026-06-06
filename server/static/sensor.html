@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sensor &mdash; Weather Sensor Stations</title>
+  <link rel="stylesheet" href="/static/styles.css?v=7" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link">&larr; All stations</a>
+    <h1 id="sensor-title">&hellip;</h1>
+    <span id="sensor-status" class="status-pill status-unknown">
+      <span class="status-dot"></span><span class="status-label">—</span>
+    </span>
+    <div class="toggles">
+      <div class="toggle-group" id="range-toggle">
+        <button data-range="24h" class="active">24h</button>
+        <button data-range="7d">7d</button>
+        <button data-range="30d">30d</button>
+      </div>
+    </div>
+    <div id="conn" class="conn conn-pending">connecting&hellip;</div>
+  </header>
+  <main>
+    <section class="panel">
+      <div class="detail-grid">
+        <div class="detail-metric">
+          <div class="detail-label">Temperature</div>
+          <div class="detail-value"><span id="cur-temp">&mdash;</span><span class="metric-unit">°F</span></div>
+          <div class="detail-summary" id="sum-temp">no data</div>
+        </div>
+        <div class="detail-metric">
+          <div class="detail-label">Humidity</div>
+          <div class="detail-value"><span id="cur-hum">&mdash;</span><span class="metric-unit">%</span></div>
+          <div class="detail-summary" id="sum-hum">no data</div>
+        </div>
+        <div class="detail-metric">
+          <div class="detail-label">Pressure</div>
+          <div class="detail-value"><span id="cur-pres">&mdash;</span><span class="metric-unit">inHg</span></div>
+          <div class="detail-summary" id="sum-pres">no data</div>
+        </div>
+      </div>
+      <div class="detail-footer">
+        <span id="sensor-id-line"></span>
+        <span id="last-seen">no data yet</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header"><h2>Temperature (°F)</h2></div>
+      <div class="chart-wrap chart-wrap-md"><canvas id="chart-temp"></canvas></div>
+    </section>
+    <section class="panel">
+      <div class="panel-header"><h2>Humidity (%)</h2></div>
+      <div class="chart-wrap chart-wrap-md"><canvas id="chart-hum"></canvas></div>
+    </section>
+    <section class="panel">
+      <div class="panel-header"><h2>Pressure (inHg)</h2></div>
+      <div class="chart-wrap chart-wrap-md"><canvas id="chart-pres"></canvas></div>
+    </section>
+  </main>
+  <script src="/static/sensor.js?v=7"></script>
+</body>
+</html>

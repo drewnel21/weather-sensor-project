@@ -1,0 +1,13 @@
+# Normalize line endings: store LF in the repo and check out LF everywhere.
+# This project develops on Windows but deploys to a Raspberry Pi / Linux box,
+# and CRLF line endings break systemd unit files and shell scripts on Linux.
+# Python and JS handle LF fine on Windows, so LF-everywhere is safe.
+* text=auto eol=lf
+
+# Treat these as binary (no line-ending translation, no diffs).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.db binary
+*.uf2 binary

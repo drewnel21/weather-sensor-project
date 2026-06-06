@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.eggs/
+build/
+dist/
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local config
+.env
+*.env.local
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+
+# Firmware secrets
+firmware/config.py
+
+# Claude Code — personal/local settings (shared launch.json IS committed)
+.claude/settings.local.json
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

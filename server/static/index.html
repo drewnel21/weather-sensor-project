@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather Sensor Stations</title>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" />
+  <link rel="stylesheet" href="/static/styles.css?v=7" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Weather Sensor Stations</h1>
+    <div class="toggles">
+      <div class="toggle-group" id="range-toggle">
+        <button data-range="24h" class="active">24h</button>
+        <button data-range="7d">7d</button>
+        <button data-range="30d">30d</button>
+      </div>
+    </div>
+    <div id="conn" class="conn conn-pending">connecting&hellip;</div>
+  </header>
+  <main>
+    <section class="panel map-panel">
+      <div class="panel-header">
+        <h2>Sensor map</h2>
+        <div id="place-hint" class="place-hint" hidden></div>
+      </div>
+      <div id="map"></div>
+    </section>
+    <div id="empty" class="empty" hidden>No sensors yet. Publish a reading to <code>weather/&lt;id&gt;/state</code>.</div>
+    <div id="grid" class="grid"></div>
+  </main>
+  <script src="/static/app.js?v=7"></script>
+</body>
+</html>

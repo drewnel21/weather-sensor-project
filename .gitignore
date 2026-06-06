@@ -31,6 +31,8 @@ firmware/config.py
 
 # Claude Code — personal/local settings (shared launch.json IS committed)
 .claude/settings.local.json
+# Project-local Claude instructions — kept private, not shared publicly
+CLAUDE.md
 
 # OS / editors
 .DS_Store

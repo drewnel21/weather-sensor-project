@@ -29,9 +29,8 @@ htmlcov/
 # Firmware secrets
 firmware/config.py
 
-# Claude Code — personal/local settings (shared launch.json IS committed)
-.claude/settings.local.json
-# Project-local Claude instructions — kept private, not shared publicly
+# Claude Code — local dev tooling + instructions, kept private (not shared)
+.claude/
 CLAUDE.md
 
 # OS / editors

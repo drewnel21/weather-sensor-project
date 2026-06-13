@@ -1,13 +1,19 @@
-# Pico W weather sensor firmware
+# Pico W / Pico 2 W weather sensor firmware
 
-MicroPython firmware for the Raspberry Pi Pico W + BME280 outdoor weather
-node. Publishes temperature / humidity / pressure to MQTT every 30s. This
-covers **Milestone 1** of the project plan — getting a real sensor reading
-into a Mosquitto broker so the rest of the pipeline has something to chew on.
+MicroPython firmware for the Raspberry Pi Pico W (RP2040) **or** Pico 2 W
+(RP2350) + BME280 outdoor weather node. Publishes temperature / humidity /
+pressure to MQTT every 30s. This covers **Milestone 1** of the project plan
+— getting a real sensor reading into a Mosquitto broker so the rest of the
+pipeline has something to chew on.
+
+The application code (`main.py`, `bme280.py`, `config.py`) is identical on
+both boards. The only thing that differs is the MicroPython `.uf2` you
+flash — see [step 0](#0-flash-micropython-onto-the-pico-once-per-board)
+below.
 
 ## Hardware
 
-| BME280 pin | Pico W pin | Notes |
+| BME280 pin | Pico W / Pico 2 W pin | Notes |
 |---|---|---|
 | VIN / VCC  | 3V3 OUT (pin 36) | **Never** 5V — the BME280 is 3.3V only. |
 | GND        | GND (pin 38)     | Common ground. |
@@ -15,6 +21,9 @@ into a Mosquitto broker so the rest of the pipeline has something to chew on.
 | SCL        | GP1 (pin 2)      | I2C0 SCL. |
 | SDO        | GND              | Sets I2C address to 0x76. Tie to VCC for 0x77. |
 | CSB        | VCC              | Forces I2C mode (the BME280 also supports SPI). |
+
+The Pico W and Pico 2 W share the same 40-pin layout, so the wiring above
+applies unchanged to both boards.
 
 Most breakouts (Adafruit, SparkFun, generic) have pull-ups on SDA/SCL on
 board. If you're working with a bare chip, add 4.7 kΩ pull-ups to 3V3 on
@@ -36,11 +45,37 @@ WiFi password.
 
 ## Provisioning steps (Thonny workflow)
 
-Prerequisites: MicroPython 1.22+ already flashed to the Pico W (confirmed)
-and Thonny installed. If you ever need to re-flash, drag the `.uf2` from
-[micropython.org/download/RPI_PICO_W](https://micropython.org/download/RPI_PICO_W/)
-onto the device while holding BOOTSEL — the drive remounts as `RPI-RP2` then
-disappears once the firmware is written.
+Prerequisites: Thonny installed on the dev PC. The Pico needs MicroPython on
+it before any of the later steps work — that's Step 0 below.
+
+### 0. Flash MicroPython onto the Pico (once per board)
+
+**Pick the right `.uf2` for your board — the two builds are NOT
+interchangeable.** Flashing an RP2040 build onto a Pico 2 W (or vice versa)
+will leave the device in BOOTSEL mode forever, refusing to enumerate as a
+MicroPython device. The boards look almost identical; check the silkscreen
+under the USB connector — it says either **"Pico W"** or **"Pico 2 W"**.
+
+| Board | Silkscreen | MicroPython download |
+|---|---|---|
+| Pi Pico W (RP2040) | `Pico W` | [micropython.org/download/RPI_PICO_W](https://micropython.org/download/RPI_PICO_W/) |
+| Pi Pico 2 W (RP2350) | `Pico 2 W` | [micropython.org/download/RPI_PICO2_W](https://micropython.org/download/RPI_PICO2_W/) |
+
+Grab the latest stable `.uf2` from the page that matches your board, then:
+
+1. **Unplug** the Pico from USB.
+2. **Hold the BOOTSEL button** (the small white button on top of the board)
+   and plug the Pico back in. Release BOOTSEL once Windows mounts a new
+   removable drive named **`RPI-RP2`** (Pico W) or **`RP2350`** (Pico 2 W).
+3. Drag the `.uf2` file you downloaded onto that drive. The drive will
+   unmount automatically once the flash completes (a few seconds) and the
+   Pico reboots into MicroPython.
+4. **Done — proceed to Step 1.** You only need to repeat this if you want to
+   upgrade MicroPython or recover a bricked device.
+
+> **Mixed fleet tip:** the project uses 2× Pico W and 2× Pico 2 W. Label each
+> physical board (a piece of tape on the back works) before you start
+> flashing, so you don't grab the wrong `.uf2` halfway through a batch.
 
 ### 1. Create your config file
 
@@ -78,15 +113,23 @@ the PC; the upload to the device happens in step 4.
 2. In Thonny: **Run → Configure interpreter…** (or **Tools → Options →
    Interpreter** depending on Thonny version).
 3. Set **Interpreter** to **MicroPython (Raspberry Pi Pico)**. On newer
-   Thonny builds it may be listed as **MicroPython (RP2040)** — either works.
+   Thonny builds the entry may be split per chip family — pick **MicroPython
+   (RP2040)** for a Pico W or **MicroPython (RP2350)** for a Pico 2 W.
+   The generic "Raspberry Pi Pico" option also works for either board.
 4. Set **Port** to the COM port your Pico shows up on (Thonny will usually
    list it as something like `Board CDC @ COMx` or `USB Serial Device
    (COMx)`). If nothing shows up, unplug/replug the Pico and click the
    port dropdown again.
 5. Click **OK**. The Shell pane at the bottom should print the MicroPython
-   banner:
+   banner — exact wording depends on which board you flashed:
    ```
    MicroPython v1.22.x on 2024-xx-xx; Raspberry Pi Pico W with RP2040
+   Type "help()" for more information.
+   >>>
+   ```
+   …or, on a Pico 2 W:
+   ```
+   MicroPython v1.24.x on 2024-xx-xx; Raspberry Pi Pico 2 W with RP2350
    Type "help()" for more information.
    >>>
    ```

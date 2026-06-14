@@ -1,0 +1,20 @@
+[Unit]
+# Weather sensor FastAPI server + MQTT subscriber.
+# This is a TEMPLATE: __APP_DIR__ and __RUN_USER__ are filled in by
+# deploy/install.sh (which detects the repo path and current user). Don't
+# install this file verbatim — run the install script instead.
+Description=Weather sensor FastAPI server + MQTT subscriber
+After=network-online.target mosquitto.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__RUN_USER__
+WorkingDirectory=__APP_DIR__
+EnvironmentFile=__APP_DIR__/.env
+ExecStart=__APP_DIR__/server/.venv/bin/python -m uvicorn app.main:app --app-dir server --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

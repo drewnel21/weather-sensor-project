@@ -49,8 +49,9 @@ dashboard converts to °F and inHg at display time only.
 
 ## Status
 
-Milestones 1–6 are complete and verified end-to-end on real hardware.
-Milestone 7 (production deploy to the Pi) is in progress.
+**v1 complete.** All seven milestones are done and the stack runs in
+production on a Raspberry Pi 5 — multiple Picos publishing authenticated over
+MQTT, the server and broker managed by `systemd`, dashboard live on the LAN.
 
 | # | Milestone | State |
 |---|---|---|
@@ -60,10 +61,11 @@ Milestone 7 (production deploy to the Pi) is in progress.
 | 4 | History + charts — range-toggled Chart.js graphs | ✅ Done |
 | 5 | Per-sensor detail page — full charts + min/max/avg | ✅ Done |
 | 6 | Online / offline indicator — driven by MQTT status + last-seen | ✅ Done |
-| 7 | Production deploy to the Pi — Mosquitto auth + systemd + walkthrough | 🚧 In progress |
+| 7 | Production deploy to the Pi — Mosquitto auth + systemd + walkthrough | ✅ Done |
 
 Beyond the core plan, the dashboard also has inline **sensor rename** and
-**delete**, and the map uses **Mapbox GL JS**.
+**delete**, and the map uses **Mapbox GL JS**. See [deploy/README.md](deploy/README.md)
+for the Raspberry Pi setup walkthrough.
 
 ## Quick start (development)
 
